@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PostController;
+
 
 // Public page
 Route::view('/', 'welcome');
@@ -23,3 +25,5 @@ Route::post('/logout', function () {
 })->name('logout');
 
 require __DIR__.'/auth.php';
+
+Route::resource('posts', PostController::class);

@@ -29,23 +29,32 @@
         </header>
         @endif
 
-        <main>
+        <main class="w-5/6 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
             {{ $slot }}
         </main>
     </div>
-    <div class="fixed flex bottom-8 right-8 bg-gray-500 dark:bg-gray-600 text-yellow-500 dark:text-gray-100 rounded-full p-2">
-        <button onclick="toggleTheme()" id="themeToggle" class="w-6 h-6"> </button>
+
+    <!-- Theme Toggle Button -->
+    <div class="fixed flex bottom-8 right-8 bg-gray-500 dark:bg-gray-600 text-yellow-500 dark:text-gray-100 rounded-full p-2 z-50">
+        <button onclick="toggleTheme()" id="themeToggle" class="w-6 h-6"></button>
     </div>
 
+    <!-- Dark/Light Mode Script -->
     <script>
         const btn = document.getElementById('themeToggle');
-        const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m16.95 5.05l-1.06-1.06M6.11 6.11L5.05 5.05m14.14 0l-1.06 1.06M6.11 17.89l-1.06 1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" />    </svg>`;
-        const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />    </svg>`;
+        const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m16.95 5.05l-1.06-1.06M6.11 6.11L5.05 5.05m14.14 0l-1.06 1.06M6.11 17.89l-1.06 1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z"/></svg>`;
+        const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>`;
+
+        // Set initial theme based on localStorage
         const isDark = localStorage.getItem('theme') === 'dark';
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+            btn.innerHTML = sunIcon;
+        } else {
+            btn.innerHTML = moonIcon;
+        }
 
-        if (isDark) document.documentElement.classList.add('dark');
-        btn.innerHTML = isDark ? sunIcon : moonIcon;
-
+        // Toggle function
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             const dark = document.documentElement.classList.contains('dark');
