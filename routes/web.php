@@ -27,3 +27,7 @@ Route::post('/logout', function () {
 require __DIR__.'/auth.php';
 
 Route::resource('posts', PostController::class);
+
+
+// Route to show all posts
+Route::get('/viewAs', [PostController::class, 'viewAs']);

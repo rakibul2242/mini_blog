@@ -55,7 +55,7 @@ new class extends Component
         </x-nav-link>
 
         <!-- Post -->
-        <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')" wire:navigate class="flex items-center gap-2 text-left p-2 rounded hover:bg-gray-400 dark:hover:bg-blue-800 text-gray-800 dark:text-white">
+        <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index') || request()->routeIs('posts.create') || request()->routeIs('posts.edit') || request()->routeIs('posts.show')" wire:navigate class="flex items-center gap-2 text-left p-2 rounded hover:bg-gray-400 dark:hover:bg-blue-800 text-gray-800 dark:text-white">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16V4a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2H6a2 2 0 01-2-2z" />
             </svg>

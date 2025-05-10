@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -52,20 +53,27 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required',
             'content' => 'required',
-            'category' => 'required|string|max:255', // Add validation for category
-            'status' => 'required|in:published,draft,archived', // Add validation for status
+            'category' => 'required',
+            'status' => 'required',
+            'featured_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
+
+        $featuredImagePath = null;
+        if ($request->hasFile('featured_image')) {
+            $featuredImagePath = $request->file('featured_image')->store('posts', 'public');
+        }
 
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
-            'category' => $request->category, // Assign category
-            'status' => $request->status, // Assign status
+            'category' => $request->category,
+            'status' => $request->status,
+            'featured_image' => $featuredImagePath,
         ]);
 
-        return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+        return redirect()->route('posts.index')->with('success', 'Post created successfully');
     }
 
     public function show(Post $post)
@@ -82,25 +90,45 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required',
             'content' => 'required',
-            'category' => 'required|string|max:255', // Add validation for category
-            'status' => 'required|in:published,draft,archived', // Add validation for status
+            'category' => 'required',
+            'status' => 'required',
+            'featured_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
+
+        $featuredImagePath = $post->featured_image;
+        if ($request->hasFile('featured_image')) {
+            // Delete old image if it exists
+            if ($featuredImagePath) {
+                Storage::disk('public')->delete($featuredImagePath);
+            }
+
+            // Store new image
+            $featuredImagePath = $request->file('featured_image')->store('posts', 'public');
+        }
 
         $post->update([
             'title' => $request->title,
             'content' => $request->content,
-            'category' => $request->category, // Update category
-            'status' => $request->status, // Update status
+            'category' => $request->category,
+            'status' => $request->status,
+            'featured_image' => $featuredImagePath,
         ]);
 
-        return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully');
     }
+
 
     public function destroy(Post $post)
     {
         $post->delete();
         return back()->with('success', 'Post deleted successfully!');
     }
+    public function viewAs()
+    {
+        $posts = Post::all();
+        return view('posts.viewAs', compact('posts'));
+    }
+    
 }
