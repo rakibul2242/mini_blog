@@ -11,7 +11,7 @@
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Create New Post</h2>
             </div>
 
-            <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6" aria-labelledby="create-post-form">
+            <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6" aria-labelledby="create-post-form">
                 @csrf
 
                 {{-- Title --}}

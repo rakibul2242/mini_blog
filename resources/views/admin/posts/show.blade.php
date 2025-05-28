@@ -26,11 +26,11 @@
                 </p>
             </div>
             <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
-                <a href="{{ route('posts.edit', $post->id) }}"
+                <a href="{{ route('admin.posts.edit', $post->id) }}"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-2 sm:mb-0 w-full sm:w-auto">
                     Edit Post
                 </a>
-                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline-block w-full sm:w-auto">
+                <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" class="inline-block w-full sm:w-auto">
                     @csrf
                     @method('DELETE')
                     <button type="submit"

@@ -16,7 +16,7 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-gray-300 dark:bg-blue-900 border-b border-gray-200 dark:border-gray-700 w-1/6 h-screen">
+<nav x-data="{ open: false }" class="bg-gray-300 dark:bg-blue-900 border-b border-gray-200 dark:border-gray-700 w-1/6 h-screen sticky top-0">
     <!-- Primary Navigation Menu -->
     <div class="flex justify-between items-center h-14 px-3 sm:px-6 lg:px-3 bg-gray-400 dark:bg-blue-700 shadow-md">
         <!-- Logo -->
@@ -55,11 +55,19 @@ new class extends Component
         </x-nav-link>
 
         <!-- Post -->
-        <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index') || request()->routeIs('posts.create') || request()->routeIs('posts.edit') || request()->routeIs('posts.show')" wire:navigate class="flex items-center gap-2 text-left p-2 rounded hover:bg-gray-400 dark:hover:bg-blue-800 text-gray-800 dark:text-white">
+        <x-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index') || request()->routeIs('admin.posts.create') || request()->routeIs('posts.edit') || request()->routeIs('posts.show')" wire:navigate class="flex items-center gap-2 text-left p-2 rounded hover:bg-gray-400 dark:hover:bg-blue-800 text-gray-800 dark:text-white">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16V4a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2H6a2 2 0 01-2-2z" />
             </svg>
             {{ __('Post') }}
+        </x-nav-link>
+
+        <!-- Blog -->
+        <x-nav-link :href="route('blog.index')" :active="request()->routeIs('blog.index') || request()->routeIs('admin.posts.create') || request()->routeIs('posts.edit') || request()->routeIs('posts.show')" wire:navigate class="flex items-center gap-2 text-left p-2 rounded hover:bg-gray-400 dark:hover:bg-blue-800 text-gray-800 dark:text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16V4a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2H6a2 2 0 01-2-2z" />
+            </svg>
+            {{ __('Blog') }}
         </x-nav-link>
 
         <!-- Media -->

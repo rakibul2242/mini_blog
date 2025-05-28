@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+
 
 
 // Public page
@@ -24,10 +26,9 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::resource('posts', PostController::class);
-
-
-// Route to show all posts
-Route::get('/viewAs', [PostController::class, 'viewAs']);
+Route::get('/blog', [PostController::class, 'index'])->name('blog.index');
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::resource('posts', AdminPostController::class);
+});

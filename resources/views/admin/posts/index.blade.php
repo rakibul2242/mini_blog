@@ -4,7 +4,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-6">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-3xl font-bold text-center text-purple-800">📝 Manage Blog Posts</h2>
-                <a href="{{ route('posts.create') }}" class="inline-flex items-center px-4 py-2 text-purple-600 dark:text-white border-purple-500 dark:bg-purple-500 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-purple-700 dark:hover:bg-purple-600 hover:text-white focus:bg-purple-700 dark:focus:bg-purple-600 active:bg-purple-800 dark:active:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition ease-in-out duration-150">➕ Add New Post</a>
+                <a href="{{ route('admin.posts.create') }}" class="inline-flex items-center px-4 py-2 text-purple-600 dark:text-white border-purple-500 dark:bg-purple-500 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-purple-700 dark:hover:bg-purple-600 hover:text-white focus:bg-purple-700 dark:focus:bg-purple-600 active:bg-purple-800 dark:active:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition ease-in-out duration-150">➕ Add New Post</a>
             </div>
 
             <div class="flex justify-between items-center">
@@ -104,21 +104,21 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
                                 <div class="flex justify-end items-center space-x-3">
                                     <!-- View -->
-                                    <a href="{{ route('posts.show', $post->id) }}"
+                                    <a href="{{ route('admin.posts.show', $post->id) }}"
                                         class="text-gray-700 dark:text-gray-200 hover:underline hover:text-indigo-600 dark:hover:text-indigo-400 transition"
                                         title="{{ __('View') }}">
                                         {{ __('View') }}
                                     </a>
 
                                     <!-- Edit -->
-                                    <a href="{{ route('posts.edit', $post->id) }}"
+                                    <a href="{{ route('admin.posts.edit', $post->id) }}"
                                         class="text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 dark:hover:text-blue-300 transition"
                                         title="{{ __('Edit') }}">
                                         {{ __('Edit') }}
                                     </a>
 
                                     <!-- Delete -->
-                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline"
+                                    <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" class="inline"
                                         onsubmit="return confirm('{{ __(`Are you sure you want to delete this post?`) }}');">
                                         @csrf
                                         @method('DELETE')

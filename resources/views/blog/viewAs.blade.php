@@ -39,11 +39,6 @@
                                 </button>
                             </form>
                         </div>
-
-                        <!-- Read More Button -->
-                        <div class="mt-4">
-                            <a href="{{ route('posts.show', $post->id) }}" class="text-purple-600 hover:underline">Read More</a>
-                        </div>
                     </div>
                 </div>
             @endforeach
