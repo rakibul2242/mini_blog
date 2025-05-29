@@ -1,42 +1,58 @@
+@php
+    $detailedPostId = request('post');
+    $detailedPost = $detailedPostId ? $posts->firstWhere('id', $detailedPostId) : $posts->take(2);
+    $otherPosts = $posts->filter(fn($post) => !collect($detailedPost)->pluck('id')->contains($post->id));
+@endphp
+
 <x-app-layout>
     <x-user-dropdown />
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Latest Posts</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-10">📚 Latest Posts</h1>
 
-        @if ($posts->count())
-            <div class="space-y-8">
-                @foreach ($posts as $post)
-                    <div
-                        class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow p-6 hover:shadow-lg transition duration-300">
+        {{-- Detailed Posts --}}
+        @if($detailedPost instanceof \Illuminate\Support\Collection)
+            @foreach ($detailedPost as $post)
+                <x-post-detailed :post="$post" class="mb-12" />
+            @endforeach
+        @else
+            <x-post-detailed :post="$detailedPost" class="mb-12" />
+        @endif
 
-                        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                            {{-- You can link this to single post show page if you want --}}
-                            {{ $post->title }}
-                        </h2>
+        {{-- More Posts Grid --}}
+        @if ($otherPosts->count())
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mt-10 mb-6">📄 More Posts</h2>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach ($otherPosts as $post)
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col">
                         @if ($post->featured_image)
                             <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}"
-                                class="w-full max-h-96 object-cover rounded mb-4">
+                                 class="w-full h-48 object-cover">
                         @endif
 
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">
-                            {{ $post->content }}
-                        </p>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                                {{ $post->title }}
+                            </h3>
 
-                        <div class="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
-                            <span><strong>Category:</strong> {{ $post->category }}</span>
-                            <span><strong>Status:</strong> {{ ucfirst($post->status) }}</span>
-                            <span><strong>Created At:</strong> {{ $post->created_at->format('F j, Y') }}</span>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
+                                {{ Str::limit($post->content, 100) }}
+                            </p>
+
+                            <a href="{{ route('blog.index', ['post' => $post->id]) }}"
+                               class="mt-auto inline-block text-blue-600 dark:text-blue-400 font-medium hover:underline">
+                                View →
+                            </a>
                         </div>
                     </div>
                 @endforeach
             </div>
-
-            <div class="mt-8">
-                {{ $posts->links() }}
-            </div>
-        @else
-            <p class="text-gray-500 dark:text-gray-300">No posts found.</p>
         @endif
+
+        {{-- Pagination --}}
+        <div class="mt-12">
+            {{ $posts->links() }}
+        </div>
     </div>
 </x-app-layout>

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
-
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -60,6 +60,7 @@ class PostController extends Controller
             'category' => 'required',
             'status' => 'required',
             'featured_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'tags' => 'nullable|string',
         ]);
 
         $featuredImagePath = null;
@@ -75,6 +76,17 @@ class PostController extends Controller
             'featured_image' => $featuredImagePath,
         ]);
 
+        $tags = explode(',', $request->tags);
+        $tagIds = [];
+        foreach ($tags as $tagName) {
+            $tagName = trim($tagName);
+            if ($tagName) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $tagIds[] = $tag->id;
+            }
+        }
+        $post->tags()->sync($tagIds);
+
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
     }
 
@@ -82,7 +94,6 @@ class PostController extends Controller
     {
         return view('admin.posts.show', compact('post')); // You might need a show view
     }
-
 
     public function edit(Post $post)
     {
@@ -97,6 +108,7 @@ class PostController extends Controller
             'category' => 'required',
             'status' => 'required',
             'featured_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'tags' => 'nullable|string',
         ]);
 
         $featuredImagePath = $post->featured_image;
@@ -118,9 +130,19 @@ class PostController extends Controller
             'featured_image' => $featuredImagePath,
         ]);
 
+        $tags = explode(',', $request->tags);
+        $tagIds = [];
+        foreach ($tags as $tagName) {
+            $tagName = trim($tagName);
+            if ($tagName) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $tagIds[] = $tag->id;
+            }
+        }
+        $post->tags()->sync($tagIds);
+
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
     }
-
 
     public function destroy(Post $post)
     {

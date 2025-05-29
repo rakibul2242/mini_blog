@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-user-dropdown />
-    <div class="px-6 py-4">
+    <div class="px-3 py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-6">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-3xl font-bold text-center text-purple-800">📝 Manage Blog Posts</h2>
-                <a href="{{ route('admin.posts.create') }}" class="inline-flex items-center px-4 py-2 text-purple-600 dark:text-white border-purple-500 dark:bg-purple-500 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-purple-700 dark:hover:bg-purple-600 hover:text-white focus:bg-purple-700 dark:focus:bg-purple-600 active:bg-purple-800 dark:active:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition ease-in-out duration-150">➕ Add New Post</a>
+                <a href="{{ route('admin.posts.create') }}" class="px-4 py-2 text-purple-600 dark:text-white border-purple-500 dark:bg-purple-500 border rounded-md font-bold text-xs uppercase tracking-widest hover:bg-purple-700 dark:hover:bg-purple-600 hover:text-white focus:bg-purple-700 dark:focus:bg-purple-600 active:bg-purple-800 dark:active:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition ease-in-out duration-150">➕ Add New Post</a>
             </div>
 
             <div class="flex justify-between items-center">
@@ -57,22 +57,25 @@
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left text-gray-700 dark:text-gray-300" id="postTable">
                     <thead class="bg-purple-600 text-white dark:bg-purple-700">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
+                                {{ __('ID') }}
+                            </th>
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
                                 {{ __('Title') }}
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
                                 {{ __('Category') }}
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
                                 {{ __('Image') }}
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
                                 {{ __('Status') }}
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
                                 {{ __('Created At') }}
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-2 text-center text-xs font-medium uppercase tracking-wider">
                                 {{ __('Actions') }}
                             </th>
                         </tr>
@@ -80,32 +83,35 @@
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         @foreach ($posts as $post)
                         <tr class="hover:bg-purple-50 dark:hover:bg-purple-700" data-category="{{ $post->category }}" data-created-at="{{ $post->created_at->timestamp }}" data-title="{{ $post->title }}">
-                            <td class="px-6 py-4">
+                            <td class="px-3 py-2">
+                                {{ $post->id }}
+                            </td>
+                            <td class="px-3 py-2">
                                 {{ $post->title }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-3 py-2">
                                 {{ $post->category }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-3">
                                 @if ($post->featured_image)
                                 <img src="{{ Storage::url($post->featured_image) }}" alt="Post Image" class="h-7 object-cover">
                                 @else
                                 <i>No image</i>
                                 @endif
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-3 py-2">
                                 <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $post->status === 'published' ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100' : ($post->status === 'draft' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100' : 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100') }}">
                                     {{ $post->status }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-3 py-2">
                                 {{ $post->created_at->format('M d, Y') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
+                            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
                                 <div class="flex justify-end items-center space-x-3">
                                     <!-- View -->
                                     <a href="{{ route('admin.posts.show', $post->id) }}"
-                                        class="text-gray-700 dark:text-gray-200 hover:underline hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                                        class="text-purple-700 dark:text-gray-200 hover:underline hover:text-purple-600 dark:hover:text-purple-400 transition"
                                         title="{{ __('View') }}">
                                         {{ __('View') }}
                                     </a>
@@ -134,7 +140,7 @@
                         </tr>
                         @if (count($posts) === 0)
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400" colspan="6">{{ __('No posts found.') }}</td>
+                            <td class="px-3 py-2 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400" colspan="6">{{ __('No posts found.') }}</td>
                         </tr>
                         @endif
                         @endforeach
@@ -196,7 +202,7 @@
                 }
                 if (filteredPosts.length === 0) {
                     let noResultsRow = document.createElement('tr');
-                    noResultsRow.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400" colspan="6">{{ __('No posts found matching your criteria.') }}</td>`;
+                    noResultsRow.innerHTML = `<td class="px-3 py-2 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400" colspan="6">{{ __('No posts found matching your criteria.') }}</td>`;
                     postTable.appendChild(noResultsRow);
                 } else {
                     filteredPosts.forEach(row => postTable.appendChild(row));

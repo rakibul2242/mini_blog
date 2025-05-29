@@ -10,16 +10,14 @@ class Post extends Model
     use HasFactory;
 
     // Allow mass assignment for all the fields
-    protected $fillable = [
-        'title',
-        'content',
-        'category',
-        'status',
-        'featured_image',
-        'published_at'
-    ];
+    protected $fillable = ['title', 'content', 'category', 'status', 'featured_image', 'published_at'];
 
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }
