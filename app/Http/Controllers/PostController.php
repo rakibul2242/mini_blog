@@ -14,7 +14,7 @@ class PostController extends Controller
         return view('blog.index', compact('posts'));
     }
 
-    public function shows(Post $post)
+    public function show(Post $post)
     {
         // Get IDs of tags for this post
         $tagIds = $post->tags->pluck('id');

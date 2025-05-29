@@ -37,10 +37,10 @@
                         class="mt-1 w-full px-3 py-2 rounded-lg border bg-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                     @if ($post->featured_image)
                         <img src="{{ Storage::url($post->featured_image) }}" alt="Post Image"
-                            class="mt-4 max-w-full h-48 object-cover rounded-lg shadow-md">
+                            class="mt-4 max-w-full max-h-48 object-cover rounded-lg shadow-md">
                     @else
                         <img src="{{ Storage::url('posts/360_F_504289605_zehJiK0tCuZLP2MdfFBpcJdOVxKLnXg1.jpg') }}"
-                            alt="Image" class="mt-4 max-w-full h-48 object-cover border rounded-lg shadow-xl">
+                            alt="Image" class="mt-4 max-w-full max-h-48 object-cover border rounded-lg shadow-xl">
                     @endif
                     @error('featured_image')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -117,7 +117,8 @@
                         class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 flex flex-wrap gap-2">
                         <input type="text" id="tag-input"
                             placeholder="Add tags separated by commas (e.g. Laravel, PHP)"
-                            class="bg-transparent outline-none focus:outline-none border-none focus:border-none flex-1 min-w-[150px]" />
+                             class="bg-transparent p-0 flex-1 min-w-[150px]"
+                            style="outline: none !important; box-shadow: none !important; border: none !important;" />
                     </div>
 
                     <input type="hidden" name="tags" id="tags-hidden"
@@ -129,42 +130,43 @@
                 </div>
 
                 <script>
-                    const c = document.getElementById('tag-container'),
-                        i = document.getElementById('tag-input'),
-                        h = document.getElementById('tags-hidden');
-                    i.onfocus = () => c.style.boxShadow = '0 0 0 3px #3b82f6';
-                    i.onblur = () => c.style.boxShadow = 'none';
+                    const container = document.getElementById('tag-container');
+                    const input = document.getElementById('tag-input');
+                    const hiddenInput = document.getElementById('tags-hidden');
+
+                    input.onfocus = () => container.style.boxShadow = '0 0 0 3px #3b82f6';
+                    input.onblur = () => container.style.boxShadow = 'none';
 
                     document.addEventListener('DOMContentLoaded', () => {
-                        let tags = h.value ? h.value.split(',').map(t => t.trim()).filter(t => t) : [];
+                        let tags = hiddenInput.value ? hiddenInput.value.split(',').map(t => t.trim()).filter(t => t) : [];
 
                         const render = () => {
-                            c.querySelectorAll('.pill').forEach(el => el.remove());
+                            container.querySelectorAll('.pill').forEach(el => el.remove());
                             tags.forEach(t => {
                                 const span = document.createElement('span');
                                 span.className =
-                                    'pill bg-blue-500 text-white px-3 py-1 rounded-full cursor-pointer select-none';
+                                    'flex items-center justify-center pill bg-blue-500 text-white rounded-full cursor-pointer select-none py-2 px-4 text-sm font-semibold hover:bg-red-600';
                                 span.textContent = t;
                                 span.title = "Click to remove";
                                 span.onclick = () => {
                                     tags = tags.filter(x => x !== t);
                                     update();
                                 };
-                                c.insertBefore(span, i);
+                                container.insertBefore(span, input);
                             });
                         };
 
                         const update = () => {
                             render();
-                            h.value = tags.join(', ');
+                            hiddenInput.value = tags.join(', ');
                         };
 
-                        i.addEventListener('keydown', e => {
+                        input.addEventListener('keydown', e => {
                             if (e.key === ',' || e.key === 'Enter') {
                                 e.preventDefault();
-                                let val = i.value.trim().replace(/,$/, '');
+                                let val = input.value.trim().replace(/,$/, '');
                                 if (val && !tags.includes(val)) tags.push(val);
-                                i.value = '';
+                                input.value = '';
                                 update();
                             }
                         });
@@ -175,8 +177,8 @@
 
                 <div class="mt-6">
                     <button type="submit"
-                        class="inline-flex items-center px-3 py-3 bg-gradient-to-br from-purple-600 to-blue-500 text-white text-base font-semibold rounded shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300 focus:ring-opacity-50">
-                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                        class="inline-flex items-center px-3 py-3 bg-gradient-to-br from-purple-600 to-blue-500 text-white text-base font-semibold rounded shadow-md transition-all duration-300 ease-in-out transform hover:shadow-purple-500 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300 focus:ring-opacity-50">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                             <polyline points="17 21 17 13 7 13 7 21" />

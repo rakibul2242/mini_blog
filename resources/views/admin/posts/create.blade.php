@@ -1,5 +1,17 @@
 <x-app-layout>
     <x-user-dropdown />
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#content',
+        plugins: 'lists link image code',
+        toolbar: 'undo redo | bold italic underline | forecolor backcolor | alignleft aligncenter alignright | bullist numlist | fontsizeselect',
+        menubar: false,
+        branding: false,
+        height: 300
+    });
+</script>
+
     <div class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 space-y-8">
             <div class="flex items-center justify-center gap-3 border-b pb-4 border-gray-200 dark:border-gray-700">
@@ -85,7 +97,6 @@
                 <div>
                     <label for="tags"
                         class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tags</label>
-
                     <div id="tag-container"
                         class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 flex flex-wrap gap-2">
                         <input type="text" id="tag-input"
@@ -93,18 +104,25 @@
                             class="bg-transparent p-0 flex-1 min-w-[150px]"
                             style="outline: none !important; box-shadow: none !important; border: none !important;" />
                     </div>
-
                     <input type="hidden" name="tags" id="tags-hidden" />
-
                     <p class="text-red-500 text-sm mt-1 hidden" id="tags-error"></p>
                 </div>
                 <script>
-                    document.getElementById('tag-input').onfocus = () => document.getElementById('tag-container').style.boxShadow = '0 0 0 3px #3b82f6';
-                    document.getElementById('tag-input').onblur = () => document.getElementById('tag-container').style.boxShadow = 'none';
+                    const input = document.getElementById('tag-input');
+                    const container = document.getElementById('tag-container');
+                    const hiddenInput = document.getElementById('tags-hidden');
+
+                    input.onfocus = () => container.style.boxShadow = '0 0 0 3px #3b82f6';
+                    input.onblur = () => container.style.boxShadow = 'none';
+
                     document.addEventListener('DOMContentLoaded', () => {
-                        const input = document.getElementById('tag-input');
-                        const container = document.getElementById('tag-container');
                         let tags = [];
+
+                        const update = () => {
+                            // Update hidden input
+                            hiddenInput.value = tags.join(', ');
+                        };
+
                         const render = () => {
                             container.querySelectorAll('.pill').forEach(el => el.remove());
                             tags.forEach(t => {
@@ -116,10 +134,13 @@
                                 span.onclick = () => {
                                     tags = tags.filter(x => x !== t);
                                     render();
+                                    update();
                                 };
                                 container.insertBefore(span, input);
                             });
+                            update();
                         };
+
                         input.addEventListener('keydown', e => {
                             if (e.key === ',' || e.key === 'Enter') {
                                 e.preventDefault();
@@ -127,6 +148,7 @@
                                 if (val && !tags.includes(val)) tags.push(val);
                                 input.value = '';
                                 render();
+                                update();
                             }
                         });
                     });
@@ -143,8 +165,8 @@
                 </div>
                 <div>
                     <button type="submit"
-                        class="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                         class="inline-flex items-center px-3 py-3 bg-gradient-to-br from-purple-600 to-blue-500 text-white text-base font-semibold rounded shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-300 focus:ring-opacity-50">
+                       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24">
                             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                             <polyline points="17 21 17 13 7 13 7 21" />

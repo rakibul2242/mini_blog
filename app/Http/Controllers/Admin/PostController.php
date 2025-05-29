@@ -68,7 +68,7 @@ class PostController extends Controller
             $featuredImagePath = $request->file('featured_image')->store('posts', 'public');
         }
 
-        Post::create([
+        $post = Post::create([
             'title' => $request->title,
             'content' => $request->content,
             'category' => $request->category,
