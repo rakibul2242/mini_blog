@@ -1,17 +1,5 @@
 <x-app-layout>
     <x-user-dropdown />
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-    tinymce.init({
-        selector: '#content',
-        plugins: 'lists link image code',
-        toolbar: 'undo redo | bold italic underline | forecolor backcolor | alignleft aligncenter alignright | bullist numlist | fontsizeselect',
-        menubar: false,
-        branding: false,
-        height: 300
-    });
-</script>
-
     <div class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 space-y-8">
             <div class="flex items-center justify-center gap-3 border-b pb-4 border-gray-200 dark:border-gray-700">
@@ -47,6 +35,36 @@
                         <p class="text-red-500 text-sm mt-1" role="alert">{{ $message }}</p>
                     @enderror
                 </div>
+
+                {{-- <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+                <script>
+                    ClassicEditor
+                        .create(document.querySelector('#content'), {
+                            toolbar: [
+                                'heading', '|',
+                                'bold', 'italic', 'underline', 'strikethrough', '|',
+                                'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                                'alignment', 'bulletedList', 'numberedList', '|',
+                                'link', 'blockQuote', 'undo', 'redo'
+                            ]
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                </script> --}}
+
+                <script src="https://cdn.tiny.cloud/1/m0o379audvqxs9v30tt819ixautlixlstsah626s47t560dm/tinymce/6/tinymce.min.js"
+                    referrerpolicy="origin"></script>
+                <script>
+                    tinymce.init({
+                        selector: '#content',
+                        plugins: 'lists link image code table',
+                        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | fontselect fontsizeselect | code',
+                        height: 300
+                    });
+                </script>
+
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="category"
@@ -165,8 +183,8 @@
                 </div>
                 <div>
                     <button type="submit"
-                         class="inline-flex items-center px-3 py-3 bg-gradient-to-br from-purple-600 to-blue-500 text-white text-base font-semibold rounded shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-300 focus:ring-opacity-50">
-                       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                        class="inline-flex items-center px-3 py-3 bg-gradient-to-br from-purple-600 to-blue-500 text-white text-base font-semibold rounded shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-300 focus:ring-opacity-50">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24">
                             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                             <polyline points="17 21 17 13 7 13 7 21" />
