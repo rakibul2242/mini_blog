@@ -51,8 +51,10 @@
         @endif
 
         {{-- Pagination --}}
-        <div class="mt-12">
-            {{ $posts->links() }}
-        </div>
+        <div class="w-1/2 mt-12">
+{{ $posts->onEachSide(2)->links() }}
+
+</div>
+
     </div>
 </x-app-layout>

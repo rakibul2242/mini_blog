@@ -1,4 +1,4 @@
-<div class="sm:flex sm:items-center sm:ps-6 space-x-4 w-auto flex justify-end px-6 h-14 shadow-md bg-purple-600 dark:bg-purple-800 sticky top-0">
+<div class="sm:flex sm:items-center sm:ps-6 space-x-4 w-auto flex justify-end px-6 h-14 shadow-md bg-purple-600 dark:bg-purple-800 sticky top-0 z-10">
     <div class="relative">
         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
             <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"

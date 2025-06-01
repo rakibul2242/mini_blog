@@ -19,49 +19,84 @@
                     <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Title <span
                             class="text-red-500">*</span></label>
                     <input type="text" name="title" id="title" required aria-required="true"
-                        class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                        class="mt-1 w-full px-4 py-3 rounded border bg-gray-50 shadow border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                         value="{{ old('title') }}" placeholder="Enter post title">
                     @error('title')
                         <p class="text-red-500 text-sm mt-1" role="alert">{{ $message }}</p>
                     @enderror
                 </div>
-                <div>
+                {{-- <div>
                     <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Content
                         <span class="text-red-500">*</span></label>
                     <textarea name="content" id="content" rows="8" required aria-required="true"
-                        class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                        class="mt-1 w-full px-4 py-3 rounded border bg-gray-50 shadow border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                         placeholder="Write your post...">{{ old('content') }}</textarea>
+                    @error('content')
+                        <p class="text-red-500 text-sm mt-1" role="alert">{{ $message }}</p>
+                    @enderror
+                </div> --}}
+
+                <!-- Quill CSS -->
+                <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+                <div>
+                    <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Content <span class="text-red-500">*</span>
+                    </label>
+
+                    <div id="toolbar">
+                        <select class="ql-font"></select>
+                        <select class="ql-size"></select>
+                        <select class="ql-header">
+                            <option selected></option>
+                            <option value="5"></option>
+                            <option value="4"></option>
+                            <option value="3"></option>
+                            <option value="2"></option>
+                            <option value="1"></option>
+                        </select>
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                        <select class="ql-color"></select>
+                        <select class="ql-background"></select>
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-indent" value="-1"></button>
+                        <button class="ql-indent" value="+1"></button>
+                        <select class="ql-align"></select>
+                        <button class="ql-link"></button>
+                        <button class="ql-code-block"></button>
+                        <button class="ql-clean"></button>
+                    </div>
+
+                    <div id="editor"
+                        class="mt-2 h-48 bg-gray-50 dark:bg-gray-800 border rounded-b p-2 border-gray-200 dark:border-gray-600">
+                    </div>
+                    <textarea name="content" id="content" class="hidden">{{ old('content') }}</textarea>
+
                     @error('content')
                         <p class="text-red-500 text-sm mt-1" role="alert">{{ $message }}</p>
                     @enderror
                 </div>
 
-                {{-- <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+                <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
                 <script>
-                    ClassicEditor
-                        .create(document.querySelector('#content'), {
-                            toolbar: [
-                                'heading', '|',
-                                'bold', 'italic', 'underline', 'strikethrough', '|',
-                                'fontSize', 'fontColor', 'fontBackgroundColor', '|',
-                                'alignment', 'bulletedList', 'numberedList', '|',
-                                'link', 'blockQuote', 'undo', 'redo'
-                            ]
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        });
-                </script> --}}
-
-                <script src="https://cdn.tiny.cloud/1/m0o379audvqxs9v30tt819ixautlixlstsah626s47t560dm/tinymce/6/tinymce.min.js"
-                    referrerpolicy="origin"></script>
-                <script>
-                    tinymce.init({
-                        selector: '#content',
-                        plugins: 'lists link image code table',
-                        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | fontselect fontsizeselect | code',
-                        height: 300
+                    const quill = new Quill('#editor', {
+                        modules: {
+                            toolbar: '#toolbar'
+                        },
+                        theme: 'snow',
+                        placeholder: 'Write your post...'
                     });
+
+                    const contentInput = document.getElementById('content');
+                    const form = contentInput.closest('form');
+                    form.onsubmit = () => contentInput.value = quill.root.innerHTML.trim();
+
+                    @if (old('content'))
+                        quill.root.innerHTML = @json(old('content'));
+                    @endif
                 </script>
 
 
@@ -71,7 +106,7 @@
                             class="block text-sm font-medium text-gray-700 dark:text-gray-200">Category <span
                                 class="text-red-500">*</span></label>
                         <select name="category" id="category" required aria-required="true"
-                            class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                            class="mt-1 w-full px-4 py-3 rounded border bg-gray-50 shadow border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                             <option value="" disabled>Select a category</option>
                             @foreach (['Technology', 'Travel', 'Food', 'News', 'Opinion'] as $category)
                                 <option value="{{ $category }}"
@@ -89,7 +124,7 @@
                         <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Status
                             <span class="text-red-500">*</span></label>
                         <select name="status" id="status" required aria-required="true"
-                            class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                            class="mt-1 w-full px-4 py-3 rounded border bg-gray-50 shadow border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                             <option value="" disabled>Select a status</option>
                             @foreach ([['value' => 'published', 'label' => 'Published'], ['value' => 'draft', 'label' => 'Draft'], ['value' => 'archived', 'label' => 'Archived']] as $statusOption)
                                 <option value="{{ $statusOption['value'] }}"
@@ -107,7 +142,7 @@
                     <label for="featured_image"
                         class="block text-sm font-medium text-gray-700 dark:text-gray-200">Featured Image</label>
                     <input type="file" name="featured_image" id="featured_image" accept="image/*"
-                        class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+                        class="mt-1 w-full px-4 py-3 rounded border bg-gray-50 shadow border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
                     @error('featured_image')
                         <p class="text-red-500 text-sm mt-1" role="alert">{{ $message }}</p>
                     @enderror
@@ -116,7 +151,7 @@
                     <label for="tags"
                         class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tags</label>
                     <div id="tag-container"
-                        class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 flex flex-wrap gap-2">
+                        class="mt-1 w-full px-4 py-3 rounded border bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 flex flex-wrap gap-2">
                         <input type="text" id="tag-input"
                             placeholder="Add tags separated by commas (ex. Laravel, PHP)"
                             class="bg-transparent p-0 flex-1 min-w-[150px]"
@@ -175,7 +210,7 @@
                     <label for="created_at" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Created
                         At <span class="text-red-500">*</span></label>
                     <input type="date" name="created_at" id="created_at" required aria-required="true"
-                        class="mt-1 w-full px-4 py-3 rounded-lg border bg-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                        class="mt-1 w-full px-4 py-3 rounded border bg-gray-50 shadow border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                         value="{{ old('created_at', date('Y-m-d')) }}">
                     @error('created_at')
                         <p class="text-red-500 text-sm mt-1" role="alert">{{ $message }}</p>

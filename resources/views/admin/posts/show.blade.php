@@ -19,8 +19,7 @@
                 </h1>
 
                 <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-                    {{-- Using 'prose' class for better content readability --}}
-                    <p>{{ $post->content }}</p>
+                   {!! $post->content !!}
                 </div>
 
                 <hr class="my-8 border-t border-gray-200 dark:border-gray-700">
@@ -32,16 +31,18 @@
                         <span class="font-semibold text-gray-700 dark:text-gray-300 mr-2">Category:</span>
                         <span class="text-blue-600 dark:text-blue-400 font-medium">{{ $post->category }}</span>
                     </div>
-                    <div>
-                        <span class="font-semibold text-gray-700 dark:text-gray-300 mr-2">Created:</span>
-                        <span>{{ $post->created_at->format('M d, Y') }}</span>
-                    </div>
-                    @if ($post->updated_at && $post->updated_at != $post->created_at)
+                    <div class="flex justify-between">
                         <div>
-                            <span class="font-semibold text-gray-700 dark:text-gray-300 mr-2">Last Updated:</span>
-                            <span>{{ $post->updated_at->format('M d, Y H:i') }}</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300 mr-2">Created:</span>
+                            <span>{{ $post->created_at->format('M d, Y') }}</span>
                         </div>
-                    @endif
+                        @if ($post->updated_at && $post->updated_at != $post->created_at)
+                            <div>
+                                <span class="font-semibold text-gray-700 dark:text-gray-300 mr-2">Last Updated:</span>
+                                <span>{{ $post->updated_at->format('M d, Y H:i') }}</span>
+                            </div>
+                        @endif
+                    </div>
                     @if ($post->published_at)
                         <div>
                             <span class="font-semibold text-gray-700 dark:text-gray-300 mr-2">Published:</span>
