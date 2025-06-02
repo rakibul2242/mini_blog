@@ -38,15 +38,15 @@
                             </div>
 
                             <div class="mt-4 flex justify-between items-center">
-                                <a href="{{ route('posts.show', $post->id) }}"
+                                <a href="{{ route('admin.posts.show', $post->id) }}"
                                    class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
                                     View
                                 </a>
 
                                 <div class="flex gap-3 text-sm">
-                                    <a href="{{ route('posts.edit', $post->id) }}"
+                                    <a href="{{ route('admin.posts.edit', $post->id) }}"
                                        class="text-yellow-600 hover:underline">Edit</a>
-                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
+                                    <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST"
                                           onsubmit="return confirm('Are you sure?')">
                                         @csrf
                                         @method('DELETE')

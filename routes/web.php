@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\PostController as AdminPostController;
 Route::view('/', 'welcome');
 
 // Dashboard (requires auth)
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', [PostController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

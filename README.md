@@ -1,6 +1,11 @@
 28-> edit blog.index , update image problem
 
 
+ "Preferences: Open User Settings (JSON)"
+ "Preferences: Open Default Settings (JSON)"
+ "Preferences: Open Workspace Settings (JSON)"
+
+
 
 
 

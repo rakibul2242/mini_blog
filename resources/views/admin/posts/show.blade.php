@@ -5,12 +5,9 @@
             <div class="p-6 md:p-8">
                 <div class="mb-8">
                     @if ($post->featured_image)
-                        <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}"
-                            class="w-full h-64 sm:h-80 object-cover mb-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                        <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-64 sm:h-80 object-cover mb-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                     @else
-                        <img src="https://placehold.co/800x400/cccccc/333333?text=No+Image+Available"
-                            alt="{{ $post->title }}"
-                            class="w-full h-64 sm:h-80 object-cover mb-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                        <img src="https://placehold.co/800x400/cccccc/333333?text=No+Image+Available" alt="{{ $post->title }}" class="w-full h-64 sm:h-80 object-cover mb-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                     @endif
                 </div>
 
@@ -19,14 +16,13 @@
                 </h1>
 
                 <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-                   {!! $post->content !!}
+                    {!! $post->content !!}
                 </div>
 
                 <hr class="my-8 border-t border-gray-200 dark:border-gray-700">
 
                 {{-- Metadata Section --}}
-                <div
-                    class="text-gray-600 dark:text-gray-400 text-sm grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4 mb-6">
+                <div class="text-gray-600 dark:text-gray-400 text-sm grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4 mb-6">
                     <div>
                         <span class="font-semibold text-gray-700 dark:text-gray-300 mr-2">Category:</span>
                         <span class="text-blue-600 dark:text-blue-400 font-medium">{{ $post->category }}</span>
@@ -60,8 +56,7 @@
                         @if ($post->tags->isNotEmpty())
                             <div class="flex flex-wrap gap-2">
                                 @foreach ($post->tags as $tag)
-                                    <span
-                                        class="bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1 rounded-full dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition duration-200 ease-in-out cursor-pointer">
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1 rounded-full dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition duration-200 ease-in-out cursor-pointer">
                                         {{ $tag->name }}
                                     </span>
                                 @endforeach

@@ -14,6 +14,12 @@ class PostController extends Controller
         return view('blog.index', compact('posts'));
     }
 
+    public function dashboard()
+    {
+        $posts = Post::where('status', 'published')->latest()->paginate(5);
+        return view('dashboard', compact('posts'));
+    }
+
     public function show(Post $post)
     {
         // Get IDs of tags for this post
